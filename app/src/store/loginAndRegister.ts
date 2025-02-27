@@ -36,6 +36,7 @@ export const loginAndRegister = createTypedAsyncThunk<
     }
 
     const getAccessTokenResult = await dispatch(getAccessToken());
+    console.log('🔥 🔥 🔥 🔥 getAccessTokenResult:', getAccessTokenResult);
     if (getAccessToken.rejected.match(getAccessTokenResult)) {
       await dispatch(logout());
       return rejectWithValue({

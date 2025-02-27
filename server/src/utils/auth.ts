@@ -33,13 +33,17 @@ export async function getUserInfo(
   auth0Url: string,
   auth0Token: string,
 ): Promise<UserInfoResponse> {
+  console.log('🔥 auth0Url', auth0Url);
+  console.log('🔥 auth0Token', auth0Token);
+
   const userInfoUrl = `${auth0Url}/userinfo`;
   const headers = { Authorization: `Bearer ${auth0Token}` };
   const response = await axios
     .get(userInfoUrl, { headers })
     .then((value) => ({ success: true as const, value }))
     .catch((error) => ({ success: false as const, error }));
-
+  console.log('🔥 response', response);
+  
   if (!response.success) {
     const error: AxiosError = response.error;
     return {

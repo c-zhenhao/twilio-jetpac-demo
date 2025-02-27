@@ -13,6 +13,8 @@ export function createExpressApp(serverConfig: ServerConfig) {
     issuerBaseURL: serverConfig.AUTH0_ISSUER_BASE_URL,
   });
 
+  console.log('🔥 serverConfig', serverConfig);
+
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
