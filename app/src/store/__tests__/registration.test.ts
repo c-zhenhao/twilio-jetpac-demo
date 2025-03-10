@@ -114,6 +114,7 @@ describe('registration', () => {
       });
 
       it('register', async () => {
+        console.log('running test');
         voiceSdk.voiceRegister.mockRejectedValueOnce(undefined);
 
         const loginAndRegisterResult = await store.dispatch(

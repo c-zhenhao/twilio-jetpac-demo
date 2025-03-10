@@ -6,6 +6,7 @@ import { log } from '../utils/log';
 export function createTwimlRoute(
   serverConfig: ServerConfig,
 ): RequestHandler {
+  console.log(`🔥 serverConfig`, serverConfig);
   const { VoiceResponse } = twiml;
 
   const logMsg = (msg: string) => {
@@ -21,6 +22,8 @@ export function createTwimlRoute(
       res.status(401).send(msg);
       return;
     }
+
+    console.log(`🔥 req.body`, req.body);
 
     const { To: to } = req.body;
     if (typeof to !== 'string') {
@@ -40,6 +43,8 @@ export function createTwimlRoute(
       return;
     }
 
+    console.log(`🔥 recipientType`, recipientType);
+
     const callerId =
       recipientType === 'number' ? serverConfig.CALLER_ID : req.body.From;
 
@@ -49,6 +54,8 @@ export function createTwimlRoute(
       callerId,
     });
     dial[recipientType](to);
+
+    console.log(`🔥 twimlResponse`, twimlResponse.toString());
 
     res
       .header('Content-Type', 'text/xml')

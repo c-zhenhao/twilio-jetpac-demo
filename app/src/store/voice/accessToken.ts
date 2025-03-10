@@ -35,11 +35,16 @@ export const getAccessToken = createTypedAsyncThunk<
   }
 >('voice/getAccessToken', async (_, { getState, rejectWithValue }) => {
   const user = getState().user;
+
+  console.log('🔥 🔥 🔥 🔥  user:', user);
+
   if (user?.status !== 'fulfilled') {
     return rejectWithValue({
       reason: 'USER_NOT_FULFILLED',
     });
   }
+
+  console.log('default url: ', defaultUrl);
 
   const fetchResult = await settlePromise(
     fetch(`${defaultUrl}/token`, {
@@ -53,6 +58,8 @@ export const getAccessToken = createTypedAsyncThunk<
       }),
     }),
   );
+  console.log('🔥 fetchResult', fetchResult);
+
   if (fetchResult.status === 'rejected') {
     return rejectWithValue({
       reason: 'FETCH_ERROR',

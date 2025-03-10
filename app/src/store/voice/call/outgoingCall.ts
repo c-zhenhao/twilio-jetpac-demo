@@ -31,15 +31,21 @@ export const makeOutgoingCall = createTypedAsyncThunk<
     if (token?.status !== 'fulfilled') {
       return rejectWithValue({ reason: 'TOKEN_UNFULFILLED' });
     }
+    console.log(`🤡 to: ${to}`);
+    console.log(`🤡 to: ${recipientType}`);
 
     const outgoingCallResult = await settlePromise(
       voice.connect(token.value, {
         params: {
-          To: to,
+          To: '+' + to,
           recipientType,
         },
       }),
     );
+    console.log(
+      `🤡 success ! outgoingCallResult: ${JSON.stringify(outgoingCallResult)}`,
+    );
+
     if (outgoingCallResult.status === 'rejected') {
       return rejectWithValue({
         reason: 'NATIVE_MODULE_REJECTED',
@@ -52,8 +58,12 @@ export const makeOutgoingCall = createTypedAsyncThunk<
     const callInfo = getCallInfo(outgoingCall);
     callMap.set(requestId, outgoingCall);
 
+    console.log(`🤡 requestId: ${requestId}`);
+    console.log(`🤡 callMap: ${JSON.stringify(callMap)}`);
+    console.log(`🤡 outgoingCall: ${JSON.stringify(outgoingCall)}`);
+
     outgoingCall.on(TwilioCall.Event.ConnectFailure, (error) =>
-      console.error('ConnectFailure:', error),
+      console.error('🤡 ConnectFailure:', error),
     );
     outgoingCall.on(TwilioCall.Event.Reconnecting, (error) =>
       console.error('Reconnecting:', error),

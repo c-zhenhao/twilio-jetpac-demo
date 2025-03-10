@@ -33,6 +33,7 @@ export function initializeAuth() {
       throw new Error('ID_TOKEN_UNDEFINED');
     }
     const { accessToken } = credentials;
+    console.log('🔥 accessToken: ', accessToken);
     await auth0.credentialsManager.saveCredentials(credentials as Credentials);
     const { email } = await auth0.auth.userInfo({
       token: credentials.accessToken,

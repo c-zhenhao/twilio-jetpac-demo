@@ -122,7 +122,7 @@ export const acceptCallInvite = createTypedAsyncThunk<
     callMap.set(id, call);
 
     call.on(TwilioCall.Event.ConnectFailure, (error) =>
-      console.error('ConnectFailure:', error),
+      console.error('💀 ConnectFailure:', error),
     );
     call.on(TwilioCall.Event.Reconnecting, (error) =>
       console.error('Reconnecting:', error),

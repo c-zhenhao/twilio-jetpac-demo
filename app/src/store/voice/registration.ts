@@ -43,6 +43,8 @@ export const register = createTypedAsyncThunk<
   const voiceRegisterResult = await settlePromise(
     voice.register(accessToken.value),
   );
+  console.log('🔥 voice register result: ', voiceRegisterResult);
+  // {"reason": [Error: Failed to register: Error Domain=com.twilio.voice.error Code=31301 "Registration failed" UserInfo={NSLocalizedDescription=Registration failed, NSLocalizedFailureReason=NSURLErrorDomain(-1200) - An SSL error has occurred and a secure connection to the server cannot be made.}], "status": "rejected"}
   if (voiceRegisterResult.status === 'rejected') {
     return rejectWithValue({
       reason: 'NATIVE_MODULE_REJECTED',

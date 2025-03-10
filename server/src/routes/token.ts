@@ -4,19 +4,22 @@ import { Platform, ServerConfig } from '../common/types';
 import { getUserInfo, verifyEmail } from '../utils/auth';
 import { log } from '../utils/log';
 
-type ParsePlatformReturnType = {
-  incomingAllow: true;
-  platform: Platform.Android;
-  pushCredentialSid?: string;
-} | {
-  incomingAllow: true;
-  platform: Platform.Ios;
-  pushCredentialSid?: string;
-} | {
-  incomingAllow: false;
-  platform: undefined;
-  pushCredentialSid: undefined;
-};
+type ParsePlatformReturnType =
+  | {
+      incomingAllow: true;
+      platform: Platform.Android;
+      pushCredentialSid?: string;
+    }
+  | {
+      incomingAllow: true;
+      platform: Platform.Ios;
+      pushCredentialSid?: string;
+    }
+  | {
+      incomingAllow: false;
+      platform: undefined;
+      pushCredentialSid: undefined;
+    };
 export function parsePlatform(
   serverConfig: ServerConfig,
   platform: string,
@@ -59,11 +62,14 @@ export function createTokenRoute(serverConfig: ServerConfig) {
       logMsg(msg);
       return res.header('Content-Type', 'text/plain').status(403).send(msg);
     }
+    console.log('🔥 req.auth.token', req.auth.token);
 
     const userInfoResult = await getUserInfo(
       serverConfig.AUTH0_ISSUER_BASE_URL,
       req.auth.token,
     );
+    console.log('🔥 userInfoResult', userInfoResult);
+
     if (!userInfoResult.success) {
       const msg = 'User info not found.';
       logMsg(msg);
@@ -121,6 +127,8 @@ export function createTokenRoute(serverConfig: ServerConfig) {
     });
 
     accessToken.addGrant(voiceGrant);
+
+    console.log('🔥 accessToken', accessToken);
 
     res
       .header('Content-Type', 'text/plain')
